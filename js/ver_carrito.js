@@ -66,7 +66,8 @@ const refrescarCarrito = () => {
         $botonEliminar.innerHTML = `<i class="fa fa-trash"></i>`;
         $botonEliminar.onclick = async () => {
             c.quitar(idProducto);
-            obtenerProductos();
+            refrescarCarrito();
+            refrescarConteoDeCarrito();
         };
         const $celdaBoton = document.createElement("td");
         $celdaBoton.appendChild($botonEliminar);
