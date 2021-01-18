@@ -25,16 +25,24 @@ Y compartiendo mi blog con tus amigos
 También tengo canal de YouTube: https://www.youtube.com/channel/UCroP4BTWjfM0CkGB6AFUoBg?sub_confirmation=1
 ------------------------------------------------------------------------------------------------
 */
-const $cuerpoTabla = document.querySelector("#cuerpoTabla");
+const $cuerpoTabla = document.querySelector("#cuerpoTabla"),
+    $celdaTotal = document.querySelector("#celdaTotal"),
+    $btnTerminarCompra = document.querySelector("#btnTerminarCompra"),
+    c = new Carrito();
 
-const obtenerProductos = async () => {
-    // Es una petición GET, no necesitamos indicar el método ni el cuerpo
-    const respuestaRaw = await fetch("obtener_productos.php");
-    const productos = await respuestaRaw.json();
+$btnTerminarCompra.onclick = () => {
+    // Aquí haz lo que gustes con el carrito
+    const productos = c.obtener();
+    console.log(productos);
+};
+const refrescarCarrito = () => {
+    const productos = c.obtener();
     // Limpiamos la tabla
     $cuerpoTabla.innerHTML = "";
     // Ahora ya tenemos a los productos. Los recorremos
+    let total = 0;
     for (const producto of productos) {
+        total += parseFloat(producto.precio);
         // Vamos a ir adjuntando elementos a la tabla.
         const $fila = document.createElement("tr");
         // La celda del nombre
@@ -51,52 +59,14 @@ const obtenerProductos = async () => {
         $fila.appendChild($celdaPrecio);
         // Extraer el id del producto en el que estamos dentro del ciclo
         const idProducto = producto.id;
-        // Link para editar
-        const $linkEditar = document.createElement("a");
-        $linkEditar.href = "./editar_producto.php?id=" + idProducto;
-        $linkEditar.innerHTML = `<i class="fa fa-edit"></i>`;
-        $linkEditar.classList.add("button", "is-warning");
-        const $celdaLinkEditar = document.createElement("td");
-        $celdaLinkEditar.appendChild($linkEditar);
-        $fila.appendChild($celdaLinkEditar);
 
         // Para el botón de eliminar primero creamos el botón, agregamos su listener y luego lo adjuntamos a su celda
         const $botonEliminar = document.createElement("button");
         $botonEliminar.classList.add("button", "is-danger")
         $botonEliminar.innerHTML = `<i class="fa fa-trash"></i>`;
         $botonEliminar.onclick = async () => {
-
-            const respuestaConfirmacion = await Swal.fire({
-                title: "Confirmación",
-                text: "¿Eliminar el producto? esto no se puede deshacer",
-                icon: 'warning',
-                showCancelButton: true,
-                cancelButtonColor: '#3085d6',
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar',
-            });
-            if (respuestaConfirmacion.value) {
-                const url = `./eliminar_producto.php?id=${idProducto}`;
-                const respuestaRaw = await fetch(url, {
-                    method: "DELETE",
-                });
-                const respuesta = await respuestaRaw.json();
-                if (respuesta) {
-                    Swal.fire({
-                        icon: "success",
-                        text: "Producto eliminado",
-                        timer: 700, // <- Ocultar dentro de 0.7 segundos
-                    });
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        text: "El servidor no respondió con una respuesta exitosa",
-                    });
-                }
-                // De cualquier modo, volver a obtener los productos para refrescar la tabla
-                obtenerProductos();
-            }
+            c.quitar(idProducto);
+            obtenerProductos();
         };
         const $celdaBoton = document.createElement("td");
         $celdaBoton.appendChild($botonEliminar);
@@ -104,7 +74,8 @@ const obtenerProductos = async () => {
         // Adjuntamos la fila a la tabla
         $cuerpoTabla.appendChild($fila);
     }
+    $celdaTotal.textContent = total.toString();
 };
 
 // Y cuando se incluya este script, invocamos a la función
-obtenerProductos();
+refrescarCarrito();

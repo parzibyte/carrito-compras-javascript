@@ -45,7 +45,7 @@ const obtenerProductos = async () => {
     // Limpiamos la tabla
     $contenedor.innerHTML = "";
     const c = new Carrito();
-    actualizarConteo(c.obtenerConteo());
+    refrescarConteoDeCarrito();
     // Ahora ya tenemos a los productos. Los recorremos
     for (const producto of productos) {
         const $div = document.createElement("div");
@@ -86,7 +86,7 @@ const obtenerProductos = async () => {
             $botonQuitar.onclick = () => {
                 c.quitar(producto.id);
                 obtenerProductos();
-                actualizarConteo(c.obtenerConteo());
+                refrescarConteoDeCarrito();
             };
             $contenidoTarjeta.appendChild($botonQuitar);
         } else {
@@ -96,7 +96,7 @@ const obtenerProductos = async () => {
             $botonAgregar.onclick = () => {
                 c.agregar(producto);
                 obtenerProductos();
-                actualizarConteo(c.obtenerConteo());
+                refrescarConteoDeCarrito();
             };
             $contenidoTarjeta.appendChild($botonAgregar);
         }

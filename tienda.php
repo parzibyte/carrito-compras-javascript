@@ -6,6 +6,5 @@
     </div>
 </div>
 <div id="contenedor"></div>
-<script src="js/Carrito.js"></script>
 <script src="js/tienda.js"></script>
 <?php include_once "pie.php" ?>

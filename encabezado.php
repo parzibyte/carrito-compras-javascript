@@ -76,6 +76,7 @@ También tengo canal de YouTube: https://www.youtube.com/channel/UCroP4BTWjfM0Ck
             </div>
         </div>
     </nav>
+    <script type="text/javascript" src="js/Carrito.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", () => {
             const boton = document.querySelector(".navbar-burger");
@@ -84,6 +85,23 @@ También tengo canal de YouTube: https://www.youtube.com/channel/UCroP4BTWjfM0Ck
                 menu.classList.toggle("is-active");
                 boton.classList.toggle("is-active");
             };
+            // Simple función para refrescar el conteo del carrito siempre
+            const refrescarConteoDeCarrito = () => {
+                const $conteoCarrito = document.querySelector("#conteoCarrito");
+                const carritoEncabezado = new Carrito();
+                const conteo = carritoEncabezado.obtenerConteo();
+                if (conteo > 0) {
+                    $conteoCarrito.textContent = "(".concat(conteo, ")");
+                } else {
+                    $conteoCarrito.textContent = "";
+                }
+            };
+            // Hacerla global
+            window.refrescarConteoDeCarrito = refrescarConteoDeCarrito;
+            refrescarConteoDeCarrito();
+
         });
+
+        ;
     </script>
     <section class="section">
