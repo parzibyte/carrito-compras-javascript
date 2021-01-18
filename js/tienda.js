@@ -25,7 +25,18 @@ Y compartiendo mi blog con tus amigos
 También tengo canal de YouTube: https://www.youtube.com/channel/UCroP4BTWjfM0CkGB6AFUoBg?sub_confirmation=1
 ------------------------------------------------------------------------------------------------
 */
-const $contenedor = document.querySelector("#contenedor");
+const $contenedor = document.querySelector("#contenedor"),
+    $conteoCarrito = document.querySelector("#conteoCarrito");
+
+
+const actualizarConteo = conteo => {
+    if (!conteo) {
+        $conteoCarrito.textContent = "";
+    } else {
+        $conteoCarrito.textContent = `(${conteo})`;
+    }
+};
+
 
 const obtenerProductos = async () => {
     // Es una petición GET, no necesitamos indicar el método ni el cuerpo
@@ -34,6 +45,7 @@ const obtenerProductos = async () => {
     // Limpiamos la tabla
     $contenedor.innerHTML = "";
     const c = new Carrito();
+    actualizarConteo(c.obtenerConteo());
     // Ahora ya tenemos a los productos. Los recorremos
     for (const producto of productos) {
         const $div = document.createElement("div");
@@ -63,7 +75,6 @@ const obtenerProductos = async () => {
         $encabezadoPrecio.textContent = producto.precio;
         $contenidoTarjeta.appendChild($encabezadoPrecio);
         if (c.existe(producto.id)) {
-
             const $spanYaPresenteEnCarrito = document.createElement("span");
             $spanYaPresenteEnCarrito.classList.add("button", "is-success");
             $spanYaPresenteEnCarrito.innerHTML = `<i class="fa fa-check"></i>&nbsp;En el carrito`;
@@ -75,6 +86,7 @@ const obtenerProductos = async () => {
             $botonQuitar.onclick = () => {
                 c.quitar(producto.id);
                 obtenerProductos();
+                actualizarConteo(c.obtenerConteo());
             };
             $contenidoTarjeta.appendChild($botonQuitar);
         } else {
@@ -84,6 +96,7 @@ const obtenerProductos = async () => {
             $botonAgregar.onclick = () => {
                 c.agregar(producto);
                 obtenerProductos();
+                actualizarConteo(c.obtenerConteo());
             };
             $contenidoTarjeta.appendChild($botonAgregar);
         }

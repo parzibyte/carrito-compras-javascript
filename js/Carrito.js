@@ -22,7 +22,7 @@ class Carrito {
     guardar() {
         localStorage.setItem(this.clave, JSON.stringify(this.productos));
     }
-    
+
     obtener() {
         const productosCodificados = localStorage.getItem(this.clave);
         return JSON.parse(productosCodificados) || [];
@@ -32,4 +32,10 @@ class Carrito {
         const productos = this.productos;
         return productos.find(producto => producto.id === id);
     }
+
+    obtenerConteo() {
+        return this.productos.length;
+    }
+
+
 }

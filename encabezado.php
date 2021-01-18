@@ -59,6 +59,15 @@ También tengo canal de YouTube: https://www.youtube.com/channel/UCroP4BTWjfM0Ck
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
+                        <a href="ver_carrito.php" class="button is-success">
+                            <strong>Ver carrito <span id="conteoCarrito">
+                                    (1)
+                                </span>&nbsp;<i class="fa fa-shopping-cart"></i></strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="navbar-item">
+                    <div class="buttons">
                         <a target="_blank" rel="noreferrer" href="https://parzibyte.me/l/fW8zGd" class="button is-primary">
                             <strong>Soporte y ayuda</strong>
                         </a>
