@@ -29,8 +29,7 @@ También tengo canal de YouTube: https://www.youtube.com/channel/UCroP4BTWjfM0Ck
 <?php include_once "encabezado.php" ?>
 <div class="columns">
     <div class="column">
-        <h2 class="is-size-2">Productos existentes</h2>
-        <a class="button is-success" href="agregar_producto.php">Nuevo&nbsp;<i class="fa fa-plus"></i></a>
+        <h2 class="is-size-2">Mi carrito de compras</h2>
         <table class="table">
             <thead>
                 <tr>
